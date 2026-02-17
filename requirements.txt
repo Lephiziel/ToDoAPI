@@ -1,0 +1,27 @@
+# Основной фреймворк
+fastapi==0.129.0
+
+# ASGI сервер для запуска
+uvicorn[standard]==0.40.0
+
+# База данных и ORM
+sqlalchemy==2.0.46
+psycopg2-binary==2.9.11  # для PostgreSQL
+
+# Миграции БД
+alembic==1.18.4
+
+# Работа с JWT токенами
+python-jose[cryptography]==3.5.0
+
+# Хеширование паролей
+passlib[bcrypt]==1.7.4
+
+# Переменные окружения
+python-dotenv==1.2.1
+
+# Валидация email
+email-validator==2.3.0
+
+# Для CORS (если будет фронтенд)
+# python-multipart==0.0.22
