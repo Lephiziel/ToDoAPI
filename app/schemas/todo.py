@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import DateTime, Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
-from app.database import Base
+from ..database import Base
 
 class Todo(Base):
     __tablename__ = "todos"
