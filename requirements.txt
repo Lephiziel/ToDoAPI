@@ -15,7 +15,10 @@ alembic==1.18.4
 python-jose[cryptography]==3.5.0
 
 # Хеширование паролей
-passlib[bcrypt]==1.7.4
+passlib==1.7.4
+
+# Алгоритм хеширования паролей
+bcrypt<4.0.1
 
 # Переменные окружения
 python-dotenv==1.2.1
