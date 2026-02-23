@@ -10,7 +10,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 async def get_current_user(db: Session = Depends(get_db),
                            token = Depends(oauth2_scheme)):
     user = decode_access_token(token)
-    if token is None:
+    if user is None:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
     
     user_check = db.query(User).filter(User.id == int(user)).first()
