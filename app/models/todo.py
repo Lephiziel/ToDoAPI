@@ -1,23 +1,19 @@
-from pydantic import BaseModel, Field, ConfigDict
-from datetime import datetime
-from typing import Optional
+import datetime
 
-class TodoCreate(BaseModel):
-    title: str = Field(min_length=1, max_length=200)
-    description: str | None = Field(..., max_length=1000)
+from sqlalchemy import DateTime, Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
-class TodoUpdate(BaseModel):
-    title: Optional[str] = Field(None, min_length=1)
-    description: Optional[str] = None
-    is_completed: Optional[bool] = None
+from ..database import Base
 
-class TodoResponse(BaseModel):
-    id: int
-    title: str
-    description: str | None
-    is_completed: bool
-    created_at: datetime
-    updated_at: datetime
-    owner_id: int
+class Todo(Base):
+    __tablename__ = "todos"
+    
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    is_completed = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.utcnow)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
-    model_config = ConfigDict(from_attributes=True)
+    owner = relationship("User", back_populates="todos")

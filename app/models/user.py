@@ -1,27 +1,18 @@
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
-from datetime import datetime
-import email_validator
+import datetime
 
-class UserCreate(BaseModel):
-    email: EmailStr
-    username: str = Field(min_length=3, max_length=50)
-    password: str = Field(min_length=6)
+from sqlalchemy import DateTime, Column, Integer, String, Boolean
+from sqlalchemy.orm import relationship
 
-class UserLogin(BaseModel):
-    username: str
-    password: str
+from ..database import Base
 
-class UserResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+class User(Base):
+    __tablename__ = "users"
+    
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    email = Column(String, unique=True, nullable=False, index=True)
+    username = Column(String, unique=True, nullable=False, index=True)
+    hashed_password = Column(String, nullable=False)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    id: int
-    email: str
-    username: str
-    is_active: bool
-    created_at: datetime
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-
-
+    todos = relationship("Todo", back_populates="owner")

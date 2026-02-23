@@ -8,8 +8,8 @@ from alembic import context
 
 from app.database import Base
 
-from app.schemas.user import User
-from app.schemas.todo import Todo
+from app.models.user import User
+from app.models.todo import Todo
 
 import os
 

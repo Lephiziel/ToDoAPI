@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from ..dependencies import get_current_user
-from ..schemas import Todo
+from ..models import Todo
 from ..database import get_db
 from typing import List
-from ..models.todo import TodoResponse, TodoCreate, TodoUpdate
+from ..schemas.todo import TodoResponse, TodoCreate, TodoUpdate
 
 todo_router = APIRouter()
 
