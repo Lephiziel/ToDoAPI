@@ -1,14 +1,15 @@
 from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
+from typing import Optional
 
 class TodoCreate(BaseModel):
     title: str = Field(min_length=1, max_length=200)
     description: str | None = Field(..., max_length=1000)
 
 class TodoUpdate(BaseModel):
-    title: str = Field(..., min_length=1)
-    description: str | None = Field(...)
-    is_completed: bool = Field(...)
+    title: Optional[str] = Field(None, min_length=1)
+    description: Optional[str] = None
+    is_completed: Optional[bool] = None
 
 class TodoResponse(BaseModel):
     id: int
