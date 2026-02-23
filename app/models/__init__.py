@@ -1,2 +1,2 @@
-from app.schemas.user import User
-from app.schemas.todo import Todo
+from app.models.user import User
+from app.models.todo import Todo
