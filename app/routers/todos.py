@@ -14,7 +14,7 @@ async def get_all_todos(
     limit: int = 100,
     db: Session = Depends(get_db),
     current_user =  Depends(get_current_user)):
-    user_todos = db.query(Todo).filter(owner_id == current_user.id).offset(skip).limit(limit)
+    user_todos = db.query(Todo).filter(Todo.owner_id == current_user.id).offset(skip).limit(limit)
 
     return user_todos
 
@@ -53,3 +53,19 @@ async def create_the_todo(
 @todo_router.put("/{todo_id}")
 async def update_the_todo():
     pass
+
+@todo_router.delete("/{todo_id}")
+async def delete_the_todo(todo_id, current_user = Depends(get_current_user), db: Session = Depends(get_db)):
+    search_todo = db.query(Todo).filter(Todo.id == todo_id).first()
+
+    if search_todo is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Todo is not found")
+
+    if current_user.id != search_todo.owner_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to access this todo")
+
+    db.delete(search_todo)
+    db.commit()
+
+    return search_todo
+    
