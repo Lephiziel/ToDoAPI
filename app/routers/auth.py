@@ -32,9 +32,9 @@ async def reg_new_user(user: UserCreate,
     )
     db.add(new_user_to_db)
     db.commit()
+    db.refresh(new_user_to_db)
 
-    user_response = db.query(User).filter(User.email == new_user_to_db.email).first()
-    return user_response
+    return new_user_to_db
 
 @router.post("/login", response_model=Token,
                     status_code=status.HTTP_200_OK)

@@ -14,7 +14,7 @@ async def get_all_todos(
     limit: int = 100,
     db: Session = Depends(get_db),
     current_user =  Depends(get_current_user)):
-    user_todos = db.query(Todo).filter(Todo.owner_id == current_user.id).offset(skip).limit(limit)
+    user_todos = db.query(Todo).filter(Todo.owner_id == current_user.id).offset(skip).limit(limit).all()
 
     return user_todos
 
